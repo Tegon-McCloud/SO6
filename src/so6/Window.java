@@ -1,4 +1,7 @@
+package so6;
+
 import processing.core.PApplet;
+import java.lang.Runnable;
 
 public class Window extends PApplet implements Runnable {
 
@@ -19,6 +22,7 @@ public class Window extends PApplet implements Runnable {
 
     @Override
     public void run() {
-        PApplet.main("Window");
+        PApplet.main("so6.Window");
     }
+
 }
