@@ -4,7 +4,7 @@ import java.lang.Thread;
 
 public class Game {
 
-    Window window;
+    private Window window;
 
     public Game() {
         window = new Window();
@@ -13,7 +13,6 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        System.out.println("hej");
         Game g = new Game();
     }
 
