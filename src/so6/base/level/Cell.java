@@ -5,8 +5,10 @@ import processing.core.PImage;
 
 public class Cell {
 
+    public static final int pxWidth = 80, pxHeight = 80;
+
     private PImage img;
-    boolean isRoad;
+    private boolean isRoad;
 
     public Cell(PImage img, boolean isRoad) {
         this.img = img;
@@ -14,9 +16,11 @@ public class Cell {
     }
 
     public void draw(PGraphics g, int x, int y) {
-        g.image(img, 1280/16 * x, 720/9 * y);
-
+        g.image(img, pxWidth * x, pxHeight * y);
     }
 
+    public boolean isRoad() {
+        return isRoad;
+    }
 
 }

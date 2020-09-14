@@ -18,9 +18,11 @@ public class Level {
         cells = new Cell[width][height];
         for(int i = 0; i < width; i++){
             for (int j = 0; j < height; j++) {
-                BufferedImage bufImg = ImageIO.read(new File("./resources/grass.png"));
+                BufferedImage bufImg = ImageIO.read(new File("./resources/levels/" + getName() + "/" + i + "," + j + ".png"));
                 PImage img = new PImage(bufImg);
-                cells[i][j] = new Cell(img, false);
+
+
+                cells[i][j] = new Cell(img, isPath(i, j));
             }
         }
     }
@@ -34,4 +36,11 @@ public class Level {
 
     }
 
+    protected String getName() {
+        return "base";
+    }
+
+    protected boolean isPath(int x, int y) {
+        return false;
+    }
 }
