@@ -1,9 +1,11 @@
 package so6;
 
 import processing.core.PApplet;
-import java.lang.Runnable;
+import processing.core.PGraphics;
 
-public class Window extends PApplet implements Runnable {
+public class Window extends PApplet {
+
+    private PGraphics g;
 
     @Override
     public void settings() {
@@ -12,16 +14,24 @@ public class Window extends PApplet implements Runnable {
 
     @Override
     public void setup() {
+        g = createGraphics(width, height);
+
 
     }
 
     @Override
     public void draw() {
-        background(0.0f);
+
+        g.beginDraw();
+
+        Game.get().draw(g);
+
+        g.endDraw();
+
+        image(g, 0, 0);
     }
 
-    @Override
-    public void run() {
+    public static void run() {
         PApplet.main("so6.Window");
     }
 

@@ -1,19 +1,34 @@
 package so6;
 
-import java.lang.Thread;
+import processing.core.PGraphics;
+import so6.base.level.Level;
+
+import java.io.IOException;
 
 public class Game {
 
-    private Window window;
+    private static Game instance;
 
-    public Game() {
-        window = new Window();
-        Thread graphicsThread = new Thread(window, "graphics");
-        graphicsThread.start();
+    public static Game get() {
+        return instance;
     }
 
-    public static void main(String[] args) {
-        Game g = new Game();
+    private Level level;
+
+    public Game() throws IOException {
+        level = new Level();
+
+    }
+
+    public void draw(PGraphics g) {
+        level.draw(g);
+    }
+
+    public static void main(String[] args) throws IOException {
+        instance = new Game();
+        Window.run();
+        //Thread graphicsThread = new Thread(() -> , "graphics");
+        //graphicsThread.start();
     }
 
 }

@@ -1,4 +1,4 @@
 package so6.base;
 
-public class Yay {
+public class Enemy {
 }
