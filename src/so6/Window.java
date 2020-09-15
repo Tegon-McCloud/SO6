@@ -86,9 +86,10 @@ public class Window extends PApplet {
                 break;
 
         }
-
-
     }
+
+    @Override
+    public void exit() {}
 
     public static void run() {
         PApplet.main("so6.Window");

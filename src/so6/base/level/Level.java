@@ -77,6 +77,10 @@ public class Level {
         return cells[x][y].isRoad();
     }
 
+    public boolean isPath(IntVec2 pos) {
+        return isPath(pos.x, pos.y);
+    }
+
     public IntVec2 getBegin() {
         return begin.copy();
     }

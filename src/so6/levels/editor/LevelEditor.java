@@ -192,10 +192,11 @@ public class LevelEditor {
             return false;
         }
 
-        if(begin.x == 0 || begin.x == Level.width - 1){
-            if(begin.y == 0 || begin.y == Level.height - 1){
-                return false;
-            }
+        if(begin.x != 0 && begin.x != Level.width - 1 && begin.y != 0 &&  begin.y != Level.height - 1)
+            return false;
+
+        if((begin.x == 0 || begin.x == Level.width - 1) == (begin.y == 0 || begin.y == Level.height - 1)){
+            return false;
         }
 
         if(begin.x == 0 && !isPath(1, begin.y)) {
@@ -220,11 +221,12 @@ public class LevelEditor {
             return false;
         }
 
-       if(end.x == 0 || end.x == Level.width - 1){
-           if(end.y == 0 || end.y == Level.height - 1){
-               return false;
-           }
-       }
+        if(end.x != 0 && end.x != Level.width - 1 && end.y != 0 &&  end.y != Level.height - 1)
+            return false;
+
+        if((end.x == 0 || end.x == Level.width - 1) == (end.y == 0 || end.y == Level.height - 1)){
+            return false;
+        }
 
         if(end.x == 0 && !isPath(1, end.y)) {
             return false;
