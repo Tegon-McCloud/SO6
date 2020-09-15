@@ -3,7 +3,6 @@ package so6;
 import processing.core.PGraphics;
 import so6.base.Tower;
 import so6.base.level.Level;
-import so6.levels.Level0;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +14,7 @@ public class Game {
     private List<Tower> towers;
 
     public Game() throws IOException {
-        level = new Level0();
+        level = new Level("custom0");
         towers = new Vector<Tower>();
 
     }

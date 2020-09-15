@@ -22,5 +22,15 @@ public class Cell {
     public boolean isRoad() {
         return isRoad;
     }
+    public void setRoad(boolean isRoad) {
+        this.isRoad = isRoad;
+    }
+
+    public PImage getImg() {
+        return img;
+    }
+    public void setImg(PImage img) {
+        this.img = img;
+    }
 
 }

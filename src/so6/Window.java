@@ -3,7 +3,8 @@ package so6;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
-import so6.levels.editor.Editor;
+import processing.event.MouseEvent;
+import so6.levels.editor.LevelEditor;
 import so6.ui.Menu;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Window extends PApplet {
     private PGraphics g;
     private Menu menu;
     private Game game;
-    private Editor editor;
+    private LevelEditor editor;
 
     @Override
     public void settings() {
@@ -57,16 +58,36 @@ public class Window extends PApplet {
     }
 
     public void createEditor() throws IOException {
-        editor = new Editor();
+        editor = new LevelEditor();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        try {
-            menu.keyPressed(this, e);
-        } catch (IOException e0) {
-            e0.printStackTrace();
+        switch (menu.getState()) {
+            case IN_MENU:
+                try {
+                    menu.keyPressed(this, e);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                break;
+            case IN_EDITOR:
+                editor.keyPressed(e);
+                break;
         }
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        switch (menu.getState()) {
+            case IN_EDITOR:
+                editor.mousePressed(e);
+                break;
+
+        }
+
+
     }
 
     public static void run() {
