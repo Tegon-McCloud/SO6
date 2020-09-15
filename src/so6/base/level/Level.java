@@ -3,6 +3,7 @@ package so6.base.level;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
 import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Level {
 
@@ -22,8 +25,11 @@ public class Level {
 
     private IntVec2 begin, end;
 
+    private List<PVector> targets;
+
     public Level(String levelName) throws IOException {
         this.levelName = levelName;
+        this.targets = new ArrayList<>();
 
         cells = new Cell[width][height];
 
@@ -38,7 +44,7 @@ public class Level {
                     BufferedImage bufImg = ImageIO.read(new File("./resources/levels/" + levelName + "/" + i + "," + j + ".png"));
                     PImage img = new PImage(bufImg);
 
-                    cells[i][j] = new Cell(img, line == "1");
+                    cells[i][j] = new Cell(img, line.equals("1"));
                 }
             }
 
@@ -48,6 +54,79 @@ public class Level {
             end = new IntVec2(line);
         }
 
+        buildTargets();
+    }
+
+    public void buildTargets() {
+
+        IntVec2 prevPos = begin.copy();
+        IntVec2 nextPos = begin.copy();
+
+        if(begin.x == 0){
+            prevPos.x--;
+            nextPos.x++;
+        }
+        if(begin.x == Level.width - 1){
+            prevPos.x++;
+            nextPos.x--;
+        }
+        if(begin.y == 0){
+            prevPos.y--;
+            nextPos.y++;
+        }
+        if(begin.y == Level.height - 1) {
+            prevPos.y++;
+            nextPos.y--;
+        }
+
+        targets.add(new PVector((prevPos.x + 0.5f) * Cell.pxWidth, (prevPos.y + 0.5f) * Cell.pxHeight));
+        targets.add(new PVector((begin.x + 0.5f) * Cell.pxWidth, (begin.y + 0.5f) * Cell.pxHeight));
+
+        appendToTargets(nextPos, begin);
+    }
+
+    public void appendToTargets(IntVec2 pos, IntVec2 lastPos) {
+
+        targets.add(new PVector((pos.x + 0.5f) * Cell.pxWidth, (pos.y + 0.5f) * Cell.pxHeight));
+
+        if(pos.x == end.x && pos.y == end.y){
+            return;
+        }
+
+        IntVec2 testPos;
+        IntVec2 nextPos = null;
+
+        testPos = new IntVec2(pos.x + 1, pos.y);
+        if(isPath(testPos)) {
+            if(!(lastPos.x == testPos.x && lastPos.y == testPos.y)) {
+                nextPos = testPos;
+            }
+        }
+
+        testPos = new IntVec2(pos.x - 1, pos.y);
+        if(isPath(testPos)) {
+            if(!(lastPos.x == testPos.x && lastPos.y == testPos.y)) {
+                nextPos = testPos;
+            }
+        }
+
+        testPos = new IntVec2(pos.x, pos.y + 1);
+        if(isPath(testPos)) {
+            if(!(lastPos.x == testPos.x && lastPos.y == testPos.y)) {
+                nextPos = testPos;
+            }
+        }
+
+        testPos = new IntVec2(pos.x, pos.y - 1);
+        if(isPath(testPos)) {
+            if(!(lastPos.x == testPos.x && lastPos.y == testPos.y)) {
+                nextPos = testPos;
+            }
+        }
+
+        assert(nextPos != null);
+
+        appendToTargets(nextPos, pos);
     }
 
     public void draw(PGraphics g) {
@@ -71,6 +150,10 @@ public class Level {
             g.rect(Cell.pxWidth * (end.x + 0.5f), Cell.pxHeight * (end.y + 0.5f), 40, 40);
         }
 
+    }
+
+    public List<PVector> getTargets() {
+        return targets;
     }
 
     public boolean isPath(int x, int y) {

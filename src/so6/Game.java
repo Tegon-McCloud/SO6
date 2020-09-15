@@ -1,6 +1,7 @@
 package so6;
 
 import processing.core.PGraphics;
+import so6.base.Enemy;
 import so6.base.Tower;
 import so6.base.level.Level;
 
@@ -12,11 +13,14 @@ public class Game {
 
     private Level level;
     private List<Tower> towers;
+    private List<Enemy> enemies;
 
     public Game() throws IOException {
         level = new Level("custom0");
-        towers = new Vector<Tower>();
+        towers = new Vector<>();
+        enemies = new Vector<>();
 
+        enemies.add(new Enemy());
     }
 
     public void draw(PGraphics g) {
@@ -25,6 +29,15 @@ public class Game {
         for(Tower t : towers){
             t.draw(g);
         }
+
+        for(Enemy e : enemies) {
+            e.update(this, 0.0f, 0.017f);
+            e.draw(g);
+        }
+    }
+
+    public Level getLvl() {
+        return level;
     }
 
     public static void main(String[] args) throws IOException {
