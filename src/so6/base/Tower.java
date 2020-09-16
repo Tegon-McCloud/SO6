@@ -3,22 +3,24 @@ package so6.base;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
+import so6.Game;
 import so6.base.level.Cell;
+import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Tower {
-    private int x, y;
+public abstract class Tower {
+    private IntVec2 pos;
     private int tier;
 
     private PImage img;
 
-    public Tower(int x, int y) throws IOException {
-        this.x = x;
-        this.y = y;
+    public Tower(IntVec2 pos) throws IOException {
+        this.pos = pos;
         this.tier = 0;
 
         updateImg();
@@ -43,12 +45,14 @@ public class Tower {
         g.imageMode(PConstants.CENTER);
         g.pushMatrix();
 
-        g.translate(Cell.pxWidth * (x + 0.5f), Cell.pxHeight * (y + 0.5f));
+        g.translate(Cell.pxWidth * (pos.x + 0.5f), Cell.pxHeight * (pos.y+ + 0.5f));
         g.rotate(getAngle());
         g.image(img, 0, 0);
 
         g.popMatrix();
     }
+
+    public abstract void update(Game game, float t, float dt);
 
     public String getName() {
         return "base";
@@ -60,6 +64,10 @@ public class Tower {
 
     public float getAngle() {
         return 0.0f;
+    }
+
+    public PVector getPosition() {
+        return new PVector((pos.x + 0.5f) * Cell.pxWidth, (pos.y + 0.5f) * Cell.pxHeight);
     }
 
 }

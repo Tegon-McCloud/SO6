@@ -36,6 +36,8 @@ public class Enemy {
         }
 
         img = new PImage(ImageIO.read(new File("./resources/enemies/" + name + ".png")));
+        pos = new PVector(0.0f, 0.0f);
+
     }
 
 
@@ -60,4 +62,11 @@ public class Enemy {
 
     }
 
+    public PVector getPosition() {
+        return pos;
+    }
+
+    public float getPriority() {
+        return targetIndex + f;
+    }
 }
