@@ -3,6 +3,7 @@ package so6.towers;
 import processing.core.PVector;
 import so6.Game;
 import so6.base.Enemy;
+import so6.base.Projectile;
 import so6.base.Tower;
 import so6.util.IntVec2;
 
@@ -12,6 +13,7 @@ public class Archer extends Tower {
 
     private float angle;
     private float tLastShot;
+    private Enemy target;
 
     public Archer(IntVec2 pos) throws IOException {
         super(pos);
@@ -47,13 +49,15 @@ public class Archer extends Tower {
         angle = (float)Math.atan2(diff.y, diff.x);
 
         if(t - tLastShot > 1.0f) {
-            shoot(game);
+
+            try {
+                game.getProjectiles().add(new Projectile("arrow", this, target));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             tLastShot = t;
         }
-
-    }
-
-    public void shoot(Game game) {
 
     }
 

@@ -40,6 +40,9 @@ public class Enemy {
 
     }
 
+    void takeDamage(int dmg) {
+        health -= dmg;
+    }
 
     public void draw(PGraphics g) {
         g.imageMode(PConstants.CENTER);
@@ -47,6 +50,11 @@ public class Enemy {
     }
 
     public void update(Game game, float t, float dt) {
+        if(health < 0){
+            game.remove(this);
+            return;
+        }
+
         Level lvl = game.getLvl();
         pos = PVector.lerp(lvl.getTargets().get(targetIndex - 1), lvl.getTargets().get(targetIndex), f);
 

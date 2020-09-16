@@ -2,6 +2,7 @@ package so6;
 
 import processing.core.PGraphics;
 import so6.base.Enemy;
+import so6.base.Projectile;
 import so6.base.Tower;
 import so6.base.level.Level;
 import so6.towers.Archer;
@@ -13,15 +14,19 @@ import java.util.Vector;
 
 public class Game {
 
+    public static final int width = 1280, height  = 720;
+
+
     private Level level;
     private List<Tower> towers;
     private List<Enemy> enemies;
+    private List<Projectile> projectiles;
 
     private List<Enemy> deadEnemies;
+    private List<Projectile> deadProjectiles;
 
     private long tlast;
     private long tstart;
-
 
     boolean enemySpawned = false;
 
@@ -29,7 +34,10 @@ public class Game {
         level = new Level("custom0");
         towers = new Vector<>();
         enemies = new Vector<>();
+        projectiles = new Vector<>();
+
         deadEnemies = new Vector<>();
+        deadProjectiles = new Vector<>();
 
         enemies.add(new Enemy("flower monster"));
         towers.add(new Archer(new IntVec2(2, 2)));
@@ -49,7 +57,7 @@ public class Game {
             try{
                 enemies.add(new Enemy("flower monster"));
             }catch(Exception e){}
-            
+
             enemySpawned = true;
         }
 
@@ -58,6 +66,16 @@ public class Game {
         for(Tower tower : towers) {
             tower.update(this, t, dt);
             tower.draw(g);
+        }
+
+        for(Projectile projectile : projectiles) {
+            projectile.update(this, t, dt);
+            projectile.draw(g);
+        }
+
+        while(deadProjectiles.size() != 0){
+            projectiles.remove(deadProjectiles.get(0));
+            deadProjectiles.remove(0);
         }
 
         for(Enemy enemy : enemies) {
@@ -70,8 +88,6 @@ public class Game {
             deadEnemies.remove(0);
         }
 
-
-
     }
 
     public Level getLvl() {
@@ -82,8 +98,16 @@ public class Game {
         deadEnemies.add(enemy);
     }
 
+    public void remove(Projectile projectile) {
+        deadProjectiles.add(projectile);
+    }
+
     public List<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     public static void main(String[] args) throws IOException {
