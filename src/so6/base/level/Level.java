@@ -60,29 +60,41 @@ public class Level {
     public void buildTargets() {
 
         IntVec2 prevPos = begin.copy();
-        IntVec2 nextPos = begin.copy();
 
         if(begin.x == 0){
             prevPos.x--;
-            nextPos.x++;
         }
-        if(begin.x == Level.width - 1){
+        if(begin.x == width - 1){
             prevPos.x++;
-            nextPos.x--;
         }
         if(begin.y == 0){
             prevPos.y--;
-            nextPos.y++;
         }
-        if(begin.y == Level.height - 1) {
+        if(begin.y == height - 1) {
             prevPos.y++;
+        }
+
+        IntVec2 nextPos = end.copy();
+
+        if(end.x == 0){
+            nextPos.x--;
+        }
+        if(end.x == width - 1){
+            nextPos.x++;
+        }
+        if(end.y == 0){
             nextPos.y--;
+        }
+        if(end.y == height - 1) {
+            nextPos.y++;
         }
 
         targets.add(new PVector((prevPos.x + 0.5f) * Cell.pxWidth, (prevPos.y + 0.5f) * Cell.pxHeight));
-        targets.add(new PVector((begin.x + 0.5f) * Cell.pxWidth, (begin.y + 0.5f) * Cell.pxHeight));
 
-        appendToTargets(nextPos, begin);
+        appendToTargets(begin, prevPos);
+
+        targets.add(new PVector((nextPos.x + 0.5f) * Cell.pxWidth, (nextPos.y + 0.5f) * Cell.pxHeight));
+
     }
 
     public void appendToTargets(IntVec2 pos, IntVec2 lastPos) {
@@ -130,6 +142,7 @@ public class Level {
     }
 
     public void draw(PGraphics g) {
+        g.imageMode(PConstants.CORNER);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cells[i][j].draw(g, i, j);
@@ -157,6 +170,10 @@ public class Level {
     }
 
     public boolean isPath(int x, int y) {
+        if(x < 0 || x >= width || y < 0 || y > height) {
+            return false;
+        }
+
         return cells[x][y].isRoad();
     }
 

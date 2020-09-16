@@ -15,12 +15,16 @@ public class Game {
     private List<Tower> towers;
     private List<Enemy> enemies;
 
+    private List<Enemy> deadEnemies;
+
+
     public Game() throws IOException {
         level = new Level("custom0");
         towers = new Vector<>();
         enemies = new Vector<>();
+        deadEnemies = new Vector<>();
 
-        enemies.add(new Enemy());
+        enemies.add(new Enemy("flower monster"));
     }
 
     public void draw(PGraphics g) {
@@ -34,10 +38,20 @@ public class Game {
             e.update(this, 0.0f, 0.017f);
             e.draw(g);
         }
+
+
+        while(deadEnemies.size() != 0){
+            enemies.remove(deadEnemies.get(0));
+            deadEnemies.remove(0);
+        }
     }
 
     public Level getLvl() {
         return level;
+    }
+
+    public void remove(Enemy enemy) {
+        deadEnemies.add(enemy);
     }
 
     public static void main(String[] args) throws IOException {
