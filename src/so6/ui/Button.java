@@ -5,8 +5,12 @@ import processing.core.PImage;
 import processing.core.PVector;
 import so6.util.IntVec2;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 
 public class Button {
 
@@ -16,9 +20,12 @@ public class Button {
     private IntVec2 dimensions;
     private PImage img;
 
-    public Button(PVector position, IntVec2 dimensions) {
+    public Button(String name, PVector position, IntVec2 dimensions) throws IOException {
         this.position = position;
         this.dimensions = dimensions;
+
+        position.sub(new PVector(dimensions.x * pxSize, dimensions.y * pxSize).mult(0.5f));
+
 
         BufferedImage bufImg = new BufferedImage(pxSize * dimensions.x, pxSize * dimensions.y, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufImg.getGraphics();
@@ -38,6 +45,12 @@ public class Button {
         g.setColor(new Color(175, 175, 175));
         g.fillRect(0, pxSize * (dimensions.y - 1), pxSize * dimensions.x, pxSize);
 
+        BufferedImage textImg = ImageIO.read(new File("./resources/menu/buttons/" + name + ".png"));
+        float textRatio = textImg.getWidth() / (float)textImg.getHeight();
+        int textHeight = bufImg.getHeight() - 8 * pxSize;
+        int textWidth = (int) (textRatio * textHeight);
+
+        g.drawImage(textImg, (bufImg.getWidth() - textWidth)/2, 4 * pxSize, textWidth, textHeight, null);
 
         img = new PImage(bufImg);
 
@@ -47,5 +60,9 @@ public class Button {
         g.image(img, position.x, position.y);
     }
 
+    public boolean isInside(PVector point) {
+        return position.x < point.x && point.x < position.x + pxSize * dimensions.x &&
+        position.y < point.y && point.y < position.y + pxSize * dimensions.y;
+    }
 
 }

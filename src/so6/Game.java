@@ -16,7 +16,6 @@ public class Game {
 
     public static final int width = 1280, height  = 720;
 
-
     private Level level;
     private List<Tower> towers;
     private List<Enemy> enemies;

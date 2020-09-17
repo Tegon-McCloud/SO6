@@ -26,8 +26,11 @@ public class Window extends PApplet {
     public void setup() {
         g = createGraphics(width, height);
 
-        menu = new Menu();
-
+        try {
+            menu = new Menu();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -89,7 +92,7 @@ public class Window extends PApplet {
     }
 
     @Override
-    public void exit() {}
+    public void exit() {super.exit();}
 
     public static void run() {
         PApplet.main("so6.Window");
