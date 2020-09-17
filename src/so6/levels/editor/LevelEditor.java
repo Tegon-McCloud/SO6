@@ -308,13 +308,13 @@ public class LevelEditor {
 
         switch (mode) {
             case 1:
-                begin = new IntVec2(x, y);
+                cells[x][y].setRoad(!cells[x][y].isRoad());
                 break;
             case 2:
-                end = new IntVec2(x, y);
+                begin = new IntVec2(x, y);
                 break;
             case 3:
-                cells[x][y].setRoad(!cells[x][y].isRoad());
+                end = new IntVec2(x, y);
                 break;
 
         }
