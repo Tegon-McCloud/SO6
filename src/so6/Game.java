@@ -2,6 +2,7 @@ package so6;
 
 import processing.core.PGraphics;
 import so6.base.Enemy;
+import so6.base.PlayerData;
 import so6.base.Projectile;
 import so6.base.Tower;
 import so6.base.level.Level;
@@ -15,6 +16,8 @@ import java.util.Vector;
 public class Game {
 
     public static final int width = 1280, height  = 720;
+
+    private PlayerData pd;
 
     private Level level;
     private List<Tower> towers;
@@ -43,6 +46,8 @@ public class Game {
 
         tstart = System.nanoTime();
         tlast = tstart;
+
+        pd = new PlayerData(200,200);
     }
 
     public void draw(PGraphics g) {
@@ -78,7 +83,7 @@ public class Game {
         }
 
         for(Enemy enemy : enemies) {
-            enemy.update(this, t, dt);
+            enemy.update(this, t, dt, pd);
             enemy.draw(g);
         }
 

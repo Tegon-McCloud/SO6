@@ -8,6 +8,7 @@ import so6.Game;
 import so6.base.level.Level;
 
 import javax.imageio.ImageIO;
+import javax.xml.namespace.QName;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +19,7 @@ public class Enemy {
     private PVector pos;
     private float speed;
     private int health;
-
+    private String enemyName;
     private PImage img;
 
     float f;
@@ -27,7 +28,7 @@ public class Enemy {
     public Enemy(String name) throws IOException {
         targetIndex = 1;
         speed = 1.0f;
-
+        enemyName = name;
         try(
                 BufferedReader in = new BufferedReader(new FileReader(new File("./resources/enemies/" + name + ".txt")))
                 ) {
@@ -49,9 +50,10 @@ public class Enemy {
         g.image(img, pos.x, pos.y);
     }
 
-    public void update(Game game, float t, float dt) {
+    public void update(Game game, float t, float dt, PlayerData pd) {
         if(health < 0){
             game.remove(this);
+            pd.addCoins(enemyName);
             return;
         }
 
@@ -65,6 +67,7 @@ public class Enemy {
 
             if(targetIndex == lvl.getTargets().size()){
                 game.remove(this);
+                pd.removeHealth(enemyName);
             }
         }
 
