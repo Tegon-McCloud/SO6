@@ -13,14 +13,17 @@ import java.io.IOException;
 public class Overlay {
     private boolean show;
     private PlayerData data;
-    private PImage shopImg;
     private PImage coinIcon;
     private PImage heartIcon;
+
+    private Shop shop;
 
     public Overlay(Game g) throws IOException {
         data = g.getPlayerData();
 
-        shopImg = new PImage(ImageIO.read(new File("./resources/menu/shop.png")));
+        coinIcon = new PImage(ImageIO.read(new File("./resources/icon/coin.png")));
+        heartIcon = new PImage(ImageIO.read(new File("./resources/icon/heart.png")));
+        shop = new Shop();
     }
 
 
@@ -28,12 +31,17 @@ public class Overlay {
         g.textSize(24);
         g.textAlign(PConstants.CORNER);
         g.fill(0.0f);
-        g.text(data.getCoins(), 10, 36);
-        g.text(data.getLife(), 110, 36);
+        float coinsWidth = g.textWidth(data.getCoins()+"") + coinIcon.width;
+        g.text(data.getCoins(), 10 + coinIcon.width, 36);
+        g.text(data.getLife(), 20 + coinsWidth + heartIcon.width, 36);
+
+        g.imageMode(PConstants.CORNER);
+        g.image(coinIcon, 10, 12);
+        g.image(heartIcon, 20 + coinsWidth, 12);
+
 
         if(show) {
-            g.imageMode(PConstants.CORNER);
-            g.image(shopImg, g.width - shopImg.width, 0);
+            shop.draw(g);
 
         }
     }

@@ -32,12 +32,8 @@ public abstract class Tower {
         img = new PImage(bufImg);
     }
 
-    public void upgrade(String tierType) {
-        if (tierType== "speed"){
-            tierSpeed++;
-        }else if (tierType=="range"){
-            tierRange++;
-        }
+    public void upgradeSpeed(String tierType) {
+        tierSpeed++;
         try {
             updateImg();
         } catch (IOException e) {
@@ -46,11 +42,33 @@ public abstract class Tower {
 
     }
 
+    public void upgradeRange(String tierType) {
+        tierRange++;
+        try {
+            updateImg();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public void draw(PGraphics g) {
         g.imageMode(PConstants.CENTER);
         g.pushMatrix();
 
         g.translate(Cell.pxWidth * (pos.x + 0.5f), Cell.pxHeight * (pos.y+ + 0.5f));
+        g.rotate(getAngle());
+        g.image(img, 0, 0);
+
+        g.popMatrix();
+    }
+
+    public void draw(PGraphics g, PVector position){
+        g.imageMode(PConstants.CENTER);
+        g.pushMatrix();
+
+        g.translate(position.x, position.y);
         g.rotate(getAngle());
         g.image(img, 0, 0);
 
