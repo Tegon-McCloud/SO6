@@ -6,9 +6,8 @@ import so6.base.PlayerData;
 import so6.base.Projectile;
 import so6.base.Tower;
 import so6.base.level.Level;
-import so6.towers.Archer;
+import so6.towers.*;
 import so6.ui.Overlay;
-
 import so6.util.IntVec2;
 
 import java.awt.event.KeyEvent;
