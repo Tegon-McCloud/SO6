@@ -5,11 +5,21 @@ import so6.Game;
 import so6.base.Enemy;
 import so6.base.Projectile;
 import so6.base.Tower;
+import so6.ui.Shop;
+import so6.ui.ShopElement;
 import so6.util.IntVec2;
 
 import java.io.IOException;
 
 public class Flamethrower extends Tower {
+
+    static {
+        try {
+            Shop.getElementList().add(new ShopElement(200, new Flamethrower(null)));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 
     private float angle;
     private float tLastShot;

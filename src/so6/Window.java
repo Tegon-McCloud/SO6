@@ -1,9 +1,6 @@
 package so6;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.core.PImage;
+import processing.core.*;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.levels.editor.LevelEditor;
@@ -15,6 +12,12 @@ import java.io.IOException;
 
 
 public class Window extends PApplet {
+
+    private static Window wnd;
+
+    public static Window getWnd() {
+        return wnd;
+    }
 
     private PGraphics g;
     private Menu menu;
@@ -32,6 +35,7 @@ public class Window extends PApplet {
 
     @Override
     public void setup() {
+        wnd = this;
         g = createGraphics(width, height);
 
         try {
@@ -129,6 +133,10 @@ public class Window extends PApplet {
                 break;
         }
 
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     public static void run() {
