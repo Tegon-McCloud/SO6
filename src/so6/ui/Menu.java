@@ -1,15 +1,13 @@
 package so6.ui;
 
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
+import processing.core.*;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.Window;
 import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -26,6 +24,8 @@ public class Menu {
     private Button controlsButton;
     private Button exitButton;
 
+    private PFont font;
+
     public Menu() throws IOException {
         showControls = false;
         state = State.IN_MENU;
@@ -33,14 +33,22 @@ public class Menu {
         mainImg = new PImage(ImageIO.read(new File("./resources/menu/main.png")));
         controlsImg = new PImage(ImageIO.read(new File("./resources/menu/controls.png")));
 
-        playButton = new Button("play", new PVector(mainImg.width / 2, 256), new IntVec2(128, 16));
-        editorButton = new Button("editor", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
-        controlsButton = new Button("controls", new PVector(mainImg.width / 2, 256 + 2*96), new IntVec2(128, 16));
-        exitButton = new Button("exit", new PVector(mainImg.width / 2, 256 + 3*96), new IntVec2(128, 16));
+        playButton = new Button("Play", new PVector(mainImg.width / 2, 256), new IntVec2(128, 16));
+        editorButton = new Button("Edit", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
+        controlsButton = new Button("Controls", new PVector(mainImg.width / 2, 256 + 2*96), new IntVec2(128, 16));
+        exitButton = new Button("Exit", new PVector(mainImg.width / 2, 256 + 3*96), new IntVec2(128, 16));
+
+        try {
+            font = new PFont(Font.createFont(Font.TRUETYPE_FONT, new File("./resources/menu/font/MinecraftRegular-Bmg3.otf")), false);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void draw(PGraphics g) {
+
+        g.textFont(font);
 
         g.image(mainImg, 0, 0);
         playButton.draw(g);

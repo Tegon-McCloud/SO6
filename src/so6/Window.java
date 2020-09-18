@@ -32,7 +32,6 @@ public class Window extends PApplet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

@@ -7,8 +7,10 @@ import so6.base.Projectile;
 import so6.base.Tower;
 import so6.base.level.Level;
 import so6.towers.Archer;
+import so6.ui.Overlay;
 import so6.util.IntVec2;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
@@ -26,6 +28,8 @@ public class Game {
 
     private List<Enemy> deadEnemies;
     private List<Projectile> deadProjectiles;
+
+    private Overlay overlay;
 
     private long tlast;
     private long tstart;
@@ -48,6 +52,7 @@ public class Game {
         tlast = tstart;
 
         pd = new PlayerData(200,200);
+        overlay = new Overlay(this);
     }
 
     public void draw(PGraphics g) {
@@ -92,6 +97,8 @@ public class Game {
             deadEnemies.remove(0);
         }
 
+        overlay.draw(g);
+
     }
 
     public Level getLvl() {
@@ -112,6 +119,16 @@ public class Game {
 
     public List<Projectile> getProjectiles() {
         return projectiles;
+    }
+
+    public PlayerData getPlayerData() {
+        return pd;
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyChar() == ' '){
+            overlay.toggle();
+        }
     }
 
     public static void main(String[] args) throws IOException {
