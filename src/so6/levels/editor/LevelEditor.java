@@ -7,6 +7,8 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.base.level.Cell;
 import so6.base.level.Level;
+import so6.ui.Menu;
+import so6.ui.State;
 import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
@@ -282,7 +284,7 @@ public class LevelEditor {
         return true;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(Menu menu, KeyEvent e) {
         if(e.getKey() == 's' || e.getKey() == 'S') {
             try {
                 if(save()) {
@@ -298,6 +300,8 @@ public class LevelEditor {
             mode = 2;
         }else if(e.getKey() == '3') {
             mode = 3;
+        }else if(e.getKey() == PConstants.ESC) {
+            menu.setState(State.IN_MENU);
         }
 
     }
