@@ -2,7 +2,9 @@ package so6;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PVector;
 import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 import so6.base.Enemy;
 import so6.base.PlayerData;
 import so6.base.Projectile;
@@ -12,6 +14,7 @@ import so6.towers.*;
 import so6.ui.Menu;
 import so6.ui.Overlay;
 import so6.ui.State;
+import so6.ui.UpgradeMenu;
 import so6.util.IntVec2;
 
 import java.io.IOException;
@@ -33,6 +36,7 @@ public class Game {
     private List<Projectile> deadProjectiles;
 
     private Overlay overlay;
+    private UpgradeMenu um;
 
     private long tlast;
     private long tstart;
@@ -49,14 +53,15 @@ public class Game {
         deadProjectiles = new Vector<>();
 
         enemies.add(new Enemy("flower monster"));
-      /*
+
         towers.add(new Archer(new IntVec2(2, 2)));
         towers.add(new Mage(new IntVec2(5, 5)));
         towers.add(new Cannon(new IntVec2(3, 0)));
         towers.add(new Flamethrower(new IntVec2(2, 3)));
         towers.add(new Mortar(new IntVec2(5, 3)));
-       */
+
         towers.add(new SniperTroop(new IntVec2(1, 0)));
+
 
 
         tstart = System.nanoTime();
@@ -64,6 +69,7 @@ public class Game {
 
         pd = new PlayerData(200,200);
         overlay = new Overlay(this);
+        um = new UpgradeMenu();
     }
 
     public void draw(PGraphics g) {
@@ -86,6 +92,8 @@ public class Game {
         for(Tower tower : towers) {
             tower.update(this, t, dt);
             tower.draw(g);
+            um.getTowerPos(tower);
+            um.draw(g);
         }
 
         for(Projectile projectile : projectiles) {
@@ -109,6 +117,7 @@ public class Game {
         }
 
         overlay.draw(g);
+
 
     }
 
@@ -136,6 +145,7 @@ public class Game {
         return pd;
     }
 
+
     public void keyPressed(Menu menu, KeyEvent e) {
         if(e.getKey() == ' '){
             overlay.toggle();
@@ -143,6 +153,8 @@ public class Game {
 
         }else if(e.getKey() == PConstants.ESC) {
             menu.setState(State.IN_MENU);
+        }else if(e.getKey() == 'f'){
+            um.toggleUM();
         }
 
 

@@ -21,6 +21,7 @@ public class Window extends PApplet {
     private Game game;
     private LevelEditor editor;
 
+
     private PImage controls;
     private boolean showControls;
 
@@ -111,7 +112,7 @@ public class Window extends PApplet {
                 game.keyPressed(menu, e);
                 break;
             case IN_EDITOR:
-                editor.keyPressed(e);
+                editor.keyPressed(menu, e);
                 break;
         }
 
