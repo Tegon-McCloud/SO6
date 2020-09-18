@@ -15,24 +15,29 @@ import java.io.IOException;
 
 public abstract class Tower {
     private IntVec2 pos;
-    private int tier;
-
+    private int tierSpeed;
+    private int tierRange;
     private PImage img;
 
     public Tower(IntVec2 pos) throws IOException {
         this.pos = pos;
-        this.tier = 0;
-
+        this.tierSpeed = 0;
+        this.tierRange = 0;
         updateImg();
+
     }
 
     private void updateImg() throws IOException {
-        BufferedImage bufImg = ImageIO.read(new File("./resources/towers/" + getName() + "/" + tier + ".png"));
+        BufferedImage bufImg = ImageIO.read(new File("./resources/towers/" + getName() + "/" + tierSpeed + tierRange + ".png"));
         img = new PImage(bufImg);
     }
 
-    public void upgrade() {
-        tier++;
+    public void upgrade(String tierType) {
+        if (tierType== "speed"){
+            tierSpeed++;
+        }else if (tierType=="range"){
+            tierRange++;
+        }
         try {
             updateImg();
         } catch (IOException e) {
@@ -58,7 +63,7 @@ public abstract class Tower {
         return "base";
     }
 
-    public int getTier() {
+    public int getTierSpeed() {
         return 0;
     }
 
