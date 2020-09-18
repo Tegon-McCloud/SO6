@@ -1,5 +1,6 @@
 package so6.ui;
 
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import so6.Game;
@@ -13,6 +14,8 @@ public class Overlay {
     private boolean show;
     private PlayerData data;
     private PImage shopImg;
+    private PImage coinIcon;
+    private PImage heartIcon;
 
     public Overlay(Game g) throws IOException {
         data = g.getPlayerData();
@@ -23,12 +26,14 @@ public class Overlay {
 
     public void draw(PGraphics g){
         g.textSize(24);
+        g.textAlign(PConstants.CORNER);
         g.fill(0.0f);
         g.text(data.getCoins(), 10, 36);
         g.text(data.getLife(), 110, 36);
 
         if(show) {
-
+            g.imageMode(PConstants.CORNER);
+            g.image(shopImg, g.width - shopImg.width, 0);
 
         }
     }

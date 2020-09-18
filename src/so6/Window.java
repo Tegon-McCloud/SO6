@@ -3,11 +3,14 @@ package so6;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.levels.editor.LevelEditor;
 import so6.ui.Menu;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -17,6 +20,9 @@ public class Window extends PApplet {
     private Menu menu;
     private Game game;
     private LevelEditor editor;
+
+    private PImage controls;
+    private boolean showControls;
 
     @Override
     public void settings() {
@@ -29,9 +35,13 @@ public class Window extends PApplet {
 
         try {
             menu = new Menu();
+            controls = new PImage(ImageIO.read(new File("./resources/menu/controls.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        showControls = false;
+
     }
 
     @Override
@@ -39,16 +49,21 @@ public class Window extends PApplet {
 
         g.beginDraw();
 
-        switch (menu.getState()){
-            case IN_MENU:
-                menu.draw(g);
-                break;
-            case IN_GAME:
-                game.draw(g);
-                break;
-            case IN_EDITOR:
-                editor.draw(g);
-                break;
+        if(showControls){
+            g.imageMode(PConstants.CORNER);
+            g.image(controls, 0, 0);
+        }else {
+            switch (menu.getState()){
+                case IN_MENU:
+                    menu.draw(g);
+                    break;
+                case IN_GAME:
+                    game.draw(g);
+                    break;
+                case IN_EDITOR:
+                    editor.draw(g);
+                    break;
+            }
         }
 
         g.endDraw();
@@ -64,8 +79,26 @@ public class Window extends PApplet {
         editor = new LevelEditor();
     }
 
+    public void showControls() {
+        showControls = true;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
+
+        if(e.getKey() == PConstants.ESC) {
+            key = 0;
+        }
+
+        if(showControls){
+            if(e.getKey() == 'h' || e.getKey() == 'H' || e.getKey() == PConstants.ESC){
+                showControls = false;
+            }
+            return;
+        } else if(e.getKey() == 'h' || e.getKey() == 'H'){
+            showControls = true;
+        }
+
         switch (menu.getState()) {
             case IN_MENU:
                 try {
@@ -74,13 +107,12 @@ public class Window extends PApplet {
                     e1.printStackTrace();
                 }
                 break;
+            case IN_GAME:
+                game.keyPressed(menu, e);
+                break;
             case IN_EDITOR:
                 editor.keyPressed(e);
                 break;
-        }
-
-        if(e.getKey() == PConstants.ESC) {
-            key = 0;
         }
 
     }

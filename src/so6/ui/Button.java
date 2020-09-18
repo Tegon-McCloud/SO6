@@ -54,7 +54,7 @@ public class Button {
         g.textSize(2.0f * dimensions.y * pxSize / 3.0f);
         g.fill(0.0f);
         g.textAlign(PConstants.CENTER, PConstants.CENTER);
-        g.text(text, position.x, position.y, dimensions.x * pxSize, dimensions.y * pxSize);
+        g.text(text, position.x + dimensions.x * pxSize / 2, position.y + dimensions.y * pxSize / 2);
     }
 
     public boolean isInside(PVector point) {

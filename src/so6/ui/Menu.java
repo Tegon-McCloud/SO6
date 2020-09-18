@@ -16,8 +16,6 @@ public class Menu {
     private State state;
 
     private PImage mainImg;
-    private PImage controlsImg;
-    private boolean showControls;
 
     private Button playButton;
     private Button editorButton;
@@ -27,11 +25,9 @@ public class Menu {
     private PFont font;
 
     public Menu() throws IOException {
-        showControls = false;
         state = State.IN_MENU;
 
         mainImg = new PImage(ImageIO.read(new File("./resources/menu/main.png")));
-        controlsImg = new PImage(ImageIO.read(new File("./resources/menu/controls.png")));
 
         playButton = new Button("Play", new PVector(mainImg.width / 2, 256), new IntVec2(128, 16));
         editorButton = new Button("Edit", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
@@ -50,28 +46,27 @@ public class Menu {
 
         g.textFont(font);
 
+        g.imageMode(PConstants.CORNER);
         g.image(mainImg, 0, 0);
         playButton.draw(g);
         editorButton.draw(g);
         controlsButton.draw(g);
         exitButton.draw(g);
 
-        if(showControls){
-            g.image(controlsImg, 0, 0);
-        }
     }
 
     public State getState() {
         return state;
+    }
+    public void setState(State state){
+        this.state = state;
     }
 
     public void mousePressed(Window wnd, MouseEvent e) {
 
         PVector mousePos = new PVector(e.getX(), e.getY());
 
-
-
-        if(e.getButton() == PConstants.LEFT && !showControls){
+        if(e.getButton() == PConstants.LEFT){
             if(playButton.isInside(mousePos)){
                 try {
                     wnd.createGame();
@@ -91,7 +86,7 @@ public class Menu {
             }
 
             if(controlsButton.isInside(mousePos)){
-                showControls = true;
+                wnd.showControls();
             }
 
             if(exitButton.isInside(mousePos)){
@@ -107,10 +102,6 @@ public class Menu {
         } else if(e.getKey() == 'e' || e.getKey() == 'E') {
             wnd.createEditor();
             state = State.IN_EDITOR;
-        }
-
-        if(e.getKey() == PConstants.ESC) {
-            showControls = false;
         }
 
     }

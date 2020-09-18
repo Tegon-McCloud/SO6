@@ -149,7 +149,7 @@ public class Level {
             }
         }
 
-        if(begin != null){
+        /*if(begin != null){
             g.fill(0.0f);
             g.noStroke();
             g.ellipseMode(PConstants.CENTER);
@@ -161,7 +161,7 @@ public class Level {
             g.noStroke();
             g.rectMode(PConstants.CENTER);
             g.rect(Cell.pxWidth * (end.x + 0.5f), Cell.pxHeight * (end.y + 0.5f), 40, 40);
-        }
+        }*/
 
     }
 
