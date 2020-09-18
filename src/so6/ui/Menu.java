@@ -5,6 +5,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 import so6.Window;
 import so6.util.IntVec2;
 
@@ -56,13 +57,52 @@ public class Menu {
         return state;
     }
 
+    public void mousePressed(Window wnd, MouseEvent e) {
+
+        PVector mousePos = new PVector(e.getX(), e.getY());
+
+
+
+        if(e.getButton() == PConstants.LEFT && !showControls){
+            if(playButton.isInside(mousePos)){
+                try {
+                    wnd.createGame();
+                    state = State.IN_GAME;
+                } catch(IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+
+            if(editorButton.isInside(mousePos)) {
+                try {
+                    wnd.createEditor();
+                    state = State.IN_EDITOR;
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+
+            if(controlsButton.isInside(mousePos)){
+                showControls = true;
+            }
+
+            if(exitButton.isInside(mousePos)){
+                wnd.exit();
+            }
+        }
+
+    }
+
     public void keyPressed(Window wnd, KeyEvent e) throws IOException {
         if(e.getKey() == 'p' || e.getKey() == 'P') {
-            wnd.createGame();
-            state = State.IN_GAME;
+
         } else if(e.getKey() == 'e' || e.getKey() == 'E') {
             wnd.createEditor();
             state = State.IN_EDITOR;
+        }
+
+        if(e.getKey() == PConstants.ESC) {
+            showControls = false;
         }
 
     }

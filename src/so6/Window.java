@@ -1,6 +1,7 @@
 package so6;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -79,20 +80,24 @@ public class Window extends PApplet {
                 break;
         }
 
+        if(e.getKey() == PConstants.ESC) {
+            key = 0;
+        }
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         switch (menu.getState()) {
+            case IN_MENU:
+                menu.mousePressed(this, e);
+                break;
             case IN_EDITOR:
                 editor.mousePressed(e);
                 break;
-
         }
-    }
 
-    @Override
-    public void exit() {super.exit();}
+    }
 
     public static void run() {
         PApplet.main("so6.Window");
