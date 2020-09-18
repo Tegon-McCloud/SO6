@@ -8,6 +8,7 @@ import so6.base.Tower;
 import so6.base.level.Level;
 import so6.towers.Archer;
 import so6.ui.Overlay;
+
 import so6.util.IntVec2;
 
 import java.awt.event.KeyEvent;
@@ -47,6 +48,10 @@ public class Game {
 
         enemies.add(new Enemy("flower monster"));
         towers.add(new Archer(new IntVec2(2, 2)));
+        towers.add(new Mage(new IntVec2(5, 5)));
+        towers.add(new Cannon(new IntVec2(3, 0)));
+        towers.add(new Flamethrower(new IntVec2(2, 3)));
+        towers.add(new Mortar(new IntVec2(5, 3)));
 
         tstart = System.nanoTime();
         tlast = tstart;
