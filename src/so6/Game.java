@@ -42,11 +42,15 @@ public class Game {
         deadProjectiles = new Vector<>();
 
         enemies.add(new Enemy("flower monster"));
+      /*
         towers.add(new Archer(new IntVec2(2, 2)));
         towers.add(new Mage(new IntVec2(5, 5)));
         towers.add(new Cannon(new IntVec2(3, 0)));
         towers.add(new Flamethrower(new IntVec2(2, 3)));
         towers.add(new Mortar(new IntVec2(5, 3)));
+       */
+        towers.add(new SniperTroop(new IntVec2(1, 0)));
+
 
         tstart = System.nanoTime();
         tlast = tstart;
