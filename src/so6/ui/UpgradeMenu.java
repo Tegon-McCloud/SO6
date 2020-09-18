@@ -1,9 +1,6 @@
 package so6.ui;
 
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
+import processing.core.*;
 import so6.base.Tower;
 
 import javax.imageio.ImageIO;
@@ -15,10 +12,8 @@ public class UpgradeMenu {
     private PImage img;
     private boolean showUMenu = false;
 
-
    public UpgradeMenu() throws IOException {
        img = new PImage(ImageIO.read(new File("./resources/Upgrade menu/Upgrade menu.png")));
-
 
     }
     public void draw(PGraphics g){
@@ -37,20 +32,26 @@ public class UpgradeMenu {
         pos = tower.getPosition();
 
     }
-    /*
+/*
     public void rangeUpgrade(){
-        if (px >= rx &&         // right of the left edge AND
-                px <= rx + rw &&    // left of the right edge AND
-                py >= ry &&         // below the top AND
-                py <= ry + rh) {    // above the bottom
+        if (mouseX >= pos.x + 3 &&         // right of the left edge AND
+                mouseX <= pos.x + 11 &&    // left of the right edge AND
+                mouseY >= pos.y + 3 &&         // below the top AND
+                mouseY <= pos.y + 11) {    // above the bottom
         }
 
     }
     private void speedUpgrade(){
-
+        if (mouseX >= pos.x - 3 &&         // right of the left edge AND
+                mouseX <= pos.x - 11 &&    // left of the right edge AND
+                mouseY >= pos.y - 3 &&         // below the top AND
+                mouseY <= pos.y - 11) {    // above the bottom
+        }
 
     }
+
  */
+
 }
 
 

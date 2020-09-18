@@ -128,7 +128,7 @@ public class Window extends PApplet {
                 editor.mousePressed(e);
                 break;
         }
-
+        System.out.println(e.getX()+ " "+" "+e.getY());
     }
 
     public static void run() {

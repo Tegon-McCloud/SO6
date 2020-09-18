@@ -155,6 +155,7 @@ public class Game {
             menu.setState(State.IN_MENU);
         }else if(e.getKey() == 'f'){
             um.toggleUM();
+
         }
 
 
