@@ -6,6 +6,7 @@ import so6.base.Enemy;
 import so6.base.Projectile;
 import so6.base.Tower;
 import so6.ui.Shop;
+import so6.ui.ShopElement;
 import so6.util.IntVec2;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Archer extends Tower {
 
     static {
         try {
-            Shop.getTowerList().add(new Archer());
+            Shop.getElementList().add(new ShopElement(100, new Archer(null)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -23,10 +24,6 @@ public class Archer extends Tower {
     private float angle;
     private float tLastShot;
     private Enemy target;
-
-    private Archer() throws IOException {
-        this(null);
-    }
 
     public Archer(IntVec2 pos) throws IOException {
         super(pos);

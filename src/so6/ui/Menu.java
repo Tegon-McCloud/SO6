@@ -106,4 +106,7 @@ public class Menu {
 
     }
 
+    public PFont getFont() {
+        return font;
+    }
 }
