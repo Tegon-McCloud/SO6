@@ -49,4 +49,11 @@ public class PlayerData {
 
     }
 
+    public int getCoins() {
+        return defaultCoins;
+    }
+
+    public int getLife()  {
+        return defaultLife;
+    }
 }

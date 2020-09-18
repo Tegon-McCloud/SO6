@@ -1,16 +1,14 @@
 package so6.ui;
 
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 import so6.util.IntVec2;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 
 public class Button {
 
@@ -19,8 +17,10 @@ public class Button {
     private PVector position;
     private IntVec2 dimensions;
     private PImage img;
+    private String text;
 
-    public Button(String name, PVector position, IntVec2 dimensions) throws IOException {
+    public Button(String text, PVector position, IntVec2 dimensions) throws IOException {
+        this.text = text;
         this.position = position;
         this.dimensions = dimensions;
 
@@ -45,19 +45,16 @@ public class Button {
         g.setColor(new Color(175, 175, 175));
         g.fillRect(0, pxSize * (dimensions.y - 1), pxSize * dimensions.x, pxSize);
 
-        BufferedImage textImg = ImageIO.read(new File("./resources/menu/buttons/" + name + ".png"));
-        float textRatio = textImg.getWidth() / (float)textImg.getHeight();
-        int textHeight = bufImg.getHeight() - 8 * pxSize;
-        int textWidth = (int) (textRatio * textHeight);
-
-        g.drawImage(textImg, (bufImg.getWidth() - textWidth)/2, 4 * pxSize, textWidth, textHeight, null);
-
         img = new PImage(bufImg);
 
     }
 
     public void draw(PGraphics g) {
         g.image(img, position.x, position.y);
+        g.textSize(2.0f * dimensions.y * pxSize / 3.0f);
+        g.fill(0.0f);
+        g.textAlign(PConstants.CENTER, PConstants.CENTER);
+        g.text(text, position.x + dimensions.x * pxSize / 2, position.y + dimensions.y * pxSize / 2);
     }
 
     public boolean isInside(PVector point) {

@@ -1,12 +1,17 @@
 package so6;
 
+import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.event.KeyEvent;
 import so6.base.Enemy;
 import so6.base.PlayerData;
 import so6.base.Projectile;
 import so6.base.Tower;
 import so6.base.level.Level;
 import so6.towers.*;
+import so6.ui.Menu;
+import so6.ui.Overlay;
+import so6.ui.State;
 import so6.util.IntVec2;
 
 import java.io.IOException;
@@ -26,6 +31,8 @@ public class Game {
 
     private List<Enemy> deadEnemies;
     private List<Projectile> deadProjectiles;
+
+    private Overlay overlay;
 
     private long tlast;
     private long tstart;
@@ -56,6 +63,7 @@ public class Game {
         tlast = tstart;
 
         pd = new PlayerData(200,200);
+        overlay = new Overlay(this);
     }
 
     public void draw(PGraphics g) {
@@ -100,6 +108,8 @@ public class Game {
             deadEnemies.remove(0);
         }
 
+        overlay.draw(g);
+
     }
 
     public Level getLvl() {
@@ -120,6 +130,22 @@ public class Game {
 
     public List<Projectile> getProjectiles() {
         return projectiles;
+    }
+
+    public PlayerData getPlayerData() {
+        return pd;
+    }
+
+    public void keyPressed(Menu menu, KeyEvent e) {
+        if(e.getKey() == ' '){
+            overlay.toggle();
+        }else if(e.getKey() == 'h' ||e.getKey() == 'H') {
+
+        }else if(e.getKey() == PConstants.ESC) {
+            menu.setState(State.IN_MENU);
+        }
+
+
     }
 
     public static void main(String[] args) throws IOException {

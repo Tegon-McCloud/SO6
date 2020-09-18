@@ -1,15 +1,13 @@
 package so6.ui;
 
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
+import processing.core.*;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.Window;
 import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,52 +16,57 @@ public class Menu {
     private State state;
 
     private PImage mainImg;
-    private PImage controlsImg;
-    private boolean showControls;
 
     private Button playButton;
     private Button editorButton;
     private Button controlsButton;
     private Button exitButton;
 
+    private PFont font;
+
     public Menu() throws IOException {
-        showControls = false;
         state = State.IN_MENU;
 
         mainImg = new PImage(ImageIO.read(new File("./resources/menu/main.png")));
-        controlsImg = new PImage(ImageIO.read(new File("./resources/menu/controls.png")));
 
-        playButton = new Button("play", new PVector(mainImg.width / 2, 256), new IntVec2(128, 16));
-        editorButton = new Button("editor", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
-        controlsButton = new Button("controls", new PVector(mainImg.width / 2, 256 + 2*96), new IntVec2(128, 16));
-        exitButton = new Button("exit", new PVector(mainImg.width / 2, 256 + 3*96), new IntVec2(128, 16));
+        playButton = new Button("Play", new PVector(mainImg.width / 2, 256), new IntVec2(128, 16));
+        editorButton = new Button("Edit", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
+        controlsButton = new Button("Controls", new PVector(mainImg.width / 2, 256 + 2*96), new IntVec2(128, 16));
+        exitButton = new Button("Exit", new PVector(mainImg.width / 2, 256 + 3*96), new IntVec2(128, 16));
+
+        try {
+            font = new PFont(Font.createFont(Font.TRUETYPE_FONT, new File("./resources/menu/font/MinecraftRegular-Bmg3.otf")), false);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void draw(PGraphics g) {
 
+        g.textFont(font);
+
+        g.imageMode(PConstants.CORNER);
         g.image(mainImg, 0, 0);
         playButton.draw(g);
         editorButton.draw(g);
         controlsButton.draw(g);
         exitButton.draw(g);
 
-        if(showControls){
-            g.image(controlsImg, 0, 0);
-        }
     }
 
     public State getState() {
         return state;
+    }
+    public void setState(State state){
+        this.state = state;
     }
 
     public void mousePressed(Window wnd, MouseEvent e) {
 
         PVector mousePos = new PVector(e.getX(), e.getY());
 
-
-
-        if(e.getButton() == PConstants.LEFT && !showControls){
+        if(e.getButton() == PConstants.LEFT){
             if(playButton.isInside(mousePos)){
                 try {
                     wnd.createGame();
@@ -83,7 +86,7 @@ public class Menu {
             }
 
             if(controlsButton.isInside(mousePos)){
-                showControls = true;
+                wnd.showControls();
             }
 
             if(exitButton.isInside(mousePos)){
@@ -99,10 +102,6 @@ public class Menu {
         } else if(e.getKey() == 'e' || e.getKey() == 'E') {
             wnd.createEditor();
             state = State.IN_EDITOR;
-        }
-
-        if(e.getKey() == PConstants.ESC) {
-            showControls = false;
         }
 
     }
