@@ -254,10 +254,9 @@ public class LevelEditor {
 
         File lvlDir;
 
-        int n = 0;
-        while(!(lvlDir = new File("./resources/levels/custom" + n)).mkdir()) {
-            n++;
-        }
+        (lvlDir = new File("./resources/levels/custom0")).mkdir();
+
+
 
         try (
                 PrintWriter out = new PrintWriter(new FileOutputStream(new File(lvlDir, "level.txt")))
