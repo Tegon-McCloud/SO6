@@ -56,4 +56,14 @@ public class PlayerData {
     public int getLife()  {
         return defaultLife;
     }
+
+    public boolean trySpend(int price){
+        if(defaultCoins >= price){
+            defaultCoins -= price;
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

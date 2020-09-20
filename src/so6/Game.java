@@ -10,7 +10,6 @@ import so6.base.Projectile;
 import so6.base.Tower;
 import so6.base.level.Cell;
 import so6.base.level.Level;
-import so6.towers.Archer;
 import so6.ui.Menu;
 import so6.ui.Overlay;
 import so6.ui.State;
@@ -18,6 +17,8 @@ import so6.ui.UpgradeMenu;
 import so6.util.IntVec2;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Vector;
 
@@ -64,7 +65,7 @@ public class Game {
 
         towers.add(new SniperTroop(new IntVec2(1, 0)));*/
 
-        grabbed = new Archer(null);
+        grabbed = null;
 
         tstart = System.nanoTime();
         tlast = tstart;
@@ -170,6 +171,15 @@ public class Game {
 
     public void mousePressed(MouseEvent e) {
         if(grabbed != null){
+            if(level.isPath(grabbed.getCellPosition())){
+                return;
+            }
+            for(Tower tower : towers){
+                if(grabbed.getCellPosition().equals(tower.getCellPosition())){
+                    return;
+                }
+            }
+
             towers.add(grabbed);
             grabbed = null;
         } else {
@@ -179,7 +189,20 @@ public class Game {
     }
 
     public void grab(Class towerClass) {
-        
+        try {
+            Constructor<?> ctor = towerClass.getConstructor(IntVec2.class);
+            grabbed = (Tower)ctor.newInstance(new IntVec2(0, 0));
+        } catch (NoSuchMethodException e) {
+            System.err.println("All towers must have a constructor that takes an IntVec2");
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

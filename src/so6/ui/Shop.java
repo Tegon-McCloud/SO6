@@ -6,6 +6,9 @@ import processing.core.PImage;
 import processing.event.MouseEvent;
 import so6.Game;
 import so6.Window;
+import so6.towers.Archer;
+import so6.towers.Cannon;
+import so6.towers.Flamethrower;
 import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
@@ -16,11 +19,20 @@ import java.util.List;
 import java.util.Vector;
 
 public class Shop {
+
     private static final List<ShopElement> elements = new Vector<>();
 
-    public static List<ShopElement> getElementList() {
-        return elements;
+    static {
+        try {
+            elements.add(new ShopElement(100, new Archer(null)));
+            elements.add(new ShopElement(200, new Cannon(null)));
+            elements.add(new ShopElement(200, new Flamethrower(null)));
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
+
 
     private PImage img;
     private PGraphics g;
@@ -46,6 +58,7 @@ public class Shop {
             this.g.beginDraw();
             for (ShopElement e : elements) {
 
+
                 e.draw(this.g, col, row);
 
                 col++;
@@ -55,7 +68,11 @@ public class Shop {
                 }
             }
             this.g.endDraw();
+
+            dirty = false;
         }
+
+
 
         shopPos = new IntVec2(g.width - img.width + 8 * 4, 8*4);
 
@@ -71,7 +88,9 @@ public class Shop {
         for (ShopElement element : elements) {
 
             if(element.isInside(mouse, col, row, g.width)) {
-                game.grab(element.cls);
+                if(game.getPlayerData().trySpend(element.price)){
+                    game.grab(element.cls);
+                }
                 break;
             }
 
@@ -81,8 +100,6 @@ public class Shop {
                 col = 0;
             }
         }
-        this.g.endDraw();
-
 
     }
 

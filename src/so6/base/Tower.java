@@ -97,4 +97,8 @@ public abstract class Tower {
         return new PVector((pos.x + 0.5f) * Cell.pxWidth, (pos.y + 0.5f) * Cell.pxHeight);
     }
 
+    public IntVec2 getCellPosition() {
+        return pos.copy();
+    }
+
 }

@@ -52,6 +52,8 @@ public class Overlay {
     }
 
     public void mousePressed(Game game, MouseEvent e) {
-        shop.mousePressed(game, e);
+        if(show) {
+            shop.mousePressed(game, e);
+        }
     }
 }
