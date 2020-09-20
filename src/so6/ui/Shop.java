@@ -22,12 +22,12 @@ public class Shop {
 
     static {
         try {
-            elements.add(new ShopElement(100, new Archer(null)));
-            elements.add(new ShopElement(50, new Cannon(null)));
-            elements.add(new ShopElement(200, new Flamethrower(null)));
-            elements.add(new ShopElement(500, new Mage(null)));
-            elements.add(new ShopElement(250, new Mortar(null)));
+            elements.add(new ShopElement(150, new Cannon(null)));
+            elements.add(new ShopElement(200, new Archer(null)));
+            elements.add(new ShopElement(300, new Flamethrower(null)));
+            elements.add(new ShopElement(350, new Mortar(null)));
             elements.add(new ShopElement(400, new SniperTroop(null)));
+            elements.add(new ShopElement(500, new Mage(null)));
 
 
         } catch (IOException exception) {
@@ -43,7 +43,15 @@ public class Shop {
     private IntVec2 shopPos;
 
     public Shop() throws IOException {
-        Collections.sort(elements, (t1, t2) -> t1.name.compareTo(t2.name));
+        Collections.sort(elements, (e1, e2) -> {
+            if(e1.price < e2.price) {
+                return -1;
+            } else if(e1.price > e2.price) {
+                return 1;
+            }else {
+                return 0;
+            }
+        });
 
         img = new PImage(ImageIO.read(new File("./resources/menu/shop.png")));
         g = Window.getWnd().createGraphics(66 * 4, 112 * 4);

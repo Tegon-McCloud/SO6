@@ -33,7 +33,7 @@ public class PlayerData {
                 life = 2;
                 coins = 2;
                 break;
-            case "flower monster":
+            case "Flower monster":
                 life = 10;
                 coins = 20;
                 break;

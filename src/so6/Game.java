@@ -16,11 +16,13 @@ import so6.ui.State;
 import so6.ui.UpgradeMenu;
 import so6.util.IntVec2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class Game {
 
@@ -42,7 +44,7 @@ public class Game {
     private long tlast;
     private long tstart;
 
-    boolean enemySpawned = false;
+    private HashMap<String, float[]> spawnTimers;
 
     private Tower grabbed;
 
@@ -55,22 +57,29 @@ public class Game {
         deadEnemies = new Vector<>();
         deadProjectiles = new Vector<>();
 
-        enemies.add(new Enemy("flower monster"));
+        spawnTimers = new HashMap<>();
 
-        /*towers.add(new Archer(new IntVec2(2, 2)));
-        towers.add(new Mage(new IntVec2(5, 5)));
-        towers.add(new Cannon(new IntVec2(3, 0)));
-        towers.add(new Flamethrower(new IntVec2(2, 3)));
-        towers.add(new Mortar(new IntVec2(5, 3)));
+        try(
+                BufferedReader in = new BufferedReader(new FileReader(new File("./resources/spawntimers.txt")));
+                ) {
 
-        towers.add(new SniperTroop(new IntVec2(1, 0)));*/
+            String enemyName = null;
+            while((enemyName = in.readLine()) != null) {
+                float[] timers = new float[2];
+                timers[0] = Float.parseFloat(in.readLine());
+                timers[1] = Float.parseFloat(in.readLine());
+
+                spawnTimers.put(enemyName, timers);
+            }
+        }
+
 
         grabbed = null;
 
         tstart = System.nanoTime();
         tlast = tstart;
 
-        pd = new PlayerData(200,200);
+        pd = new PlayerData(300,200);
         overlay = new Overlay(this);
         um = new UpgradeMenu();
     }
@@ -82,12 +91,10 @@ public class Game {
         float dt = (tnow - tlast) / 1e9f;
         tlast = tnow;
 
-        if(t > 3.0f && !enemySpawned){
-            try{
-                enemies.add(new Enemy("flower monster"));
-            }catch(Exception e){}
-
-            enemySpawned = true;
+        try {
+            spawn(t);
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
 
         level.draw(g);
@@ -129,6 +136,25 @@ public class Game {
 
             grabbed.move(new IntVec2(mx / Cell.pxWidth, my / Cell.pxHeight));
             grabbed.draw(g);
+        }
+
+        if(pd.getLife() <= 0) {
+            Window.getWnd().getMenu().setState(State.IN_MENU);
+        }
+
+    }
+
+    private void spawn(float t) throws IOException {
+        Iterator it = spawnTimers.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry<String, float[]> pair = (Map.Entry) it.next();
+            float[] timers = pair.getValue();
+
+            if (t > timers[0]) {
+                timers[0] += timers[1];
+                enemies.add(new Enemy(pair.getKey()));
+            }
+
         }
 
     }
