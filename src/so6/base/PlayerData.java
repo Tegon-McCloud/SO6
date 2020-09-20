@@ -26,7 +26,7 @@ public class PlayerData {
     private void getEnemyType(String enemyName){
         switch(enemyName) {
             case "Blue dragon":
-                life = 5;
+                life = 40;
                 coins = 150;
                 break;
             case "Blue head":
@@ -34,15 +34,15 @@ public class PlayerData {
                 coins = 2;
                 break;
             case "flower monster":
-                life = 1;
+                life = 10;
                 coins = 20;
                 break;
             case "Ghost":
-                life = 3;
+                life = 30;
                 coins = 40;
                 break;
             case "Spooky tree":
-                life = 10;
+                life = 80;
                 coins = 100;
                 break;
         }
