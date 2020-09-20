@@ -1,0 +1,12 @@
+Blue dragon
+180
+60
+Ghost
+50
+30
+Spooky tree
+120
+45
+Flower monster
+10
+15

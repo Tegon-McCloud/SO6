@@ -105,13 +105,6 @@ public class Window extends PApplet {
         }
 
         switch (menu.getState()) {
-            case IN_MENU:
-                try {
-                    menu.keyPressed(this, e);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                break;
             case IN_GAME:
                 game.keyPressed(menu, e);
                 break;

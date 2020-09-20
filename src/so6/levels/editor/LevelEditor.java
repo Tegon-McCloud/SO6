@@ -34,7 +34,7 @@ public class LevelEditor {
 
         cells = new Cell[Level.width][Level.height];
 
-        mode = 3;
+        mode = 1;
 
         for (int i = 0; i < Level.width; i++) {
             for (int j = 0; j < Level.height; j++) {

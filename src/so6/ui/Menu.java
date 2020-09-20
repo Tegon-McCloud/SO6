@@ -1,7 +1,6 @@
 package so6.ui;
 
 import processing.core.*;
-import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.Window;
 import so6.util.IntVec2;
@@ -104,16 +103,6 @@ public class Menu {
             if(exitButton.isInside(mousePos)){
                 wnd.exit();
             }
-        }
-
-    }
-
-    public void keyPressed(Window wnd, KeyEvent e) throws IOException {
-        if(e.getKey() == 'p' || e.getKey() == 'P') {
-
-        } else if(e.getKey() == 'e' || e.getKey() == 'E') {
-            wnd.createEditor();
-            state = State.IN_EDITOR;
         }
 
     }
