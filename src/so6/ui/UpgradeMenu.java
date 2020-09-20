@@ -40,23 +40,34 @@ public class UpgradeMenu {
     public void rangeUpgrade() {
         int mouseX = Window.getWnd().mouseX;
         int mouseY = Window.getWnd().mouseY;
+        boolean clickEvent = Window.getWnd().mousePressed;
+        if (showUMenu) {
+            if (clickEvent) {
+                if (mouseX >= pos.x + 4 &&
+                        mouseX <= pos.x + 28 &&
+                        mouseY >= pos.y - 4 &&
+                        mouseY <= pos.y - 28) {
+                    System.out.println("heya");
+                    System.out.println(pos.x+"posx "+" mousex"+mouseX);
+                }
 
-        if (mouseX >= pos.x + 3 &&
-                mouseX <= pos.x + 11 &&
-                mouseY >= pos.y + 3 &&
-                mouseY <= pos.y + 11) {
-            System.out.println("heya");
+            }
+
         }
     }
-
-    private void speedUpgrade() {
+    public void speedUpgrade() {
         int mouseX = Window.getWnd().mouseX;
         int mouseY = Window.getWnd().mouseY;
-        if (mouseX >= pos.x - 3 &&
-                mouseX <= pos.x - 11 &&
-                mouseY >= pos.y - 3 &&
-                mouseY <= pos.y - 11) {
-            System.out.println("hoopla");
+        boolean clickEvent = Window.getWnd().mousePressed;
+        if (showUMenu){
+            if (clickEvent){
+                if (mouseX >= pos.x - 3 &&
+                        mouseX <= pos.x - 11 &&
+                        mouseY >= pos.y - 3 &&
+                        mouseY <= pos.y - 11) {
+                    System.out.println("hoopla");
+                }
+            }
         }
     }
 }

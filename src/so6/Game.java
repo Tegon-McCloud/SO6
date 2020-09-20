@@ -97,6 +97,8 @@ public class Game {
             tower.draw(g);
             um.getTowerPos(tower);
             um.draw(g);
+            um.speedUpgrade();
+            um.rangeUpgrade();
         }
 
         for(Projectile projectile : projectiles) {
