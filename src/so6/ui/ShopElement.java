@@ -6,6 +6,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 import so6.Window;
 import so6.base.Tower;
+import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -24,6 +25,7 @@ public class ShopElement {
 
         PGraphics g = Window.getWnd().createGraphics(82, 82 + 40);
         PImage cell = new PImage(ImageIO.read(new File("./resources/editor/no_path.png")));
+        PImage coin = new PImage(ImageIO.read(new File("./resources/icon/coin.png")));
 
         g.beginDraw();
 
@@ -32,16 +34,16 @@ public class ShopElement {
         g.noFill();
         g.rect(0, 0, 81, 81);
         g.rect(0, 81, 81, 40);
-        g.image(cell, 1, 1);
 
+        g.image(cell, 1, 1);
         tower.draw(g, new PVector(41.0f, 41.0f));
 
         g.textFont(Window.getWnd().getMenu().getFont());
         g.textSize(24);
         g.fill(0.0f);
-        g.text(price, 20, 110);
+        g.text(price, 25, 110);
 
-
+        g.image(coin,10, 103);
 
         g.endDraw();
 
@@ -55,6 +57,16 @@ public class ShopElement {
 
         g.imageMode(PConstants.CENTER);
         g.image(img, x, y);
+    }
+
+    public boolean isInside(IntVec2 pos, int col, int row, int shopWidth) {
+        int x = shopWidth / 2 + (col == 0 ? -60 : +60);
+        int y = row * 140 + 80;
+
+        return x - 40 < pos.x &&
+                pos.x < x + 40 &&
+                y - 60 < pos.y &&
+                pos.y < y + 60;
     }
 
 }

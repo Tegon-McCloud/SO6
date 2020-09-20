@@ -2,15 +2,15 @@ package so6;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.base.Enemy;
 import so6.base.PlayerData;
 import so6.base.Projectile;
 import so6.base.Tower;
+import so6.base.level.Cell;
 import so6.base.level.Level;
-import so6.towers.*;
+import so6.towers.Archer;
 import so6.ui.Menu;
 import so6.ui.Overlay;
 import so6.ui.State;
@@ -43,6 +43,8 @@ public class Game {
 
     boolean enemySpawned = false;
 
+    private Tower grabbed;
+
     public Game() throws IOException {
         level = new Level("custom0");
         towers = new Vector<>();
@@ -54,15 +56,15 @@ public class Game {
 
         enemies.add(new Enemy("flower monster"));
 
-        towers.add(new Archer(new IntVec2(2, 2)));
+        /*towers.add(new Archer(new IntVec2(2, 2)));
         towers.add(new Mage(new IntVec2(5, 5)));
         towers.add(new Cannon(new IntVec2(3, 0)));
         towers.add(new Flamethrower(new IntVec2(2, 3)));
         towers.add(new Mortar(new IntVec2(5, 3)));
 
-        towers.add(new SniperTroop(new IntVec2(1, 0)));
+        towers.add(new SniperTroop(new IntVec2(1, 0)));*/
 
-
+        grabbed = new Archer(null);
 
         tstart = System.nanoTime();
         tlast = tstart;
@@ -118,6 +120,13 @@ public class Game {
 
         overlay.draw(g);
 
+        if(grabbed != null){
+            int mx = Window.getWnd().mouseX;
+            int my = Window.getWnd().mouseY;
+
+            grabbed.move(new IntVec2(mx / Cell.pxWidth, my / Cell.pxHeight));
+            grabbed.draw(g);
+        }
 
     }
 
@@ -155,9 +164,22 @@ public class Game {
             menu.setState(State.IN_MENU);
         }else if(e.getKey() == 'f'){
             um.toggleUM();
-
         }
 
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if(grabbed != null){
+            towers.add(grabbed);
+            grabbed = null;
+        } else {
+            overlay.mousePressed(this, e);
+        }
+
+    }
+
+    public void grab(Class towerClass) {
+        
 
     }
 

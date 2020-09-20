@@ -3,7 +3,10 @@ package so6.ui;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.event.MouseEvent;
+import so6.Game;
 import so6.Window;
+import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -22,6 +25,8 @@ public class Shop {
     private PImage img;
     private PGraphics g;
     boolean dirty;
+
+    private IntVec2 shopPos;
 
     public Shop() throws IOException {
         Collections.sort(elements, (t1, t2) -> t1.name.compareTo(t2.name));
@@ -52,7 +57,32 @@ public class Shop {
             this.g.endDraw();
         }
 
-        g.image(this.g, g.width - img.width + 8 * 4, 8*4,  this.g.width, this.g.height);
+        shopPos = new IntVec2(g.width - img.width + 8 * 4, 8*4);
+
+        g.image(this.g, shopPos.x, shopPos.y,  this.g.width, this.g.height);
+
+    }
+
+    public void mousePressed(Game game, MouseEvent e) {
+        IntVec2 mouse = new IntVec2(e.getX() - shopPos.x, e.getY() - shopPos.y);
+
+        int col = 0, row = 0;
+
+        for (ShopElement element : elements) {
+
+            if(element.isInside(mouse, col, row, g.width)) {
+                game.grab(element.cls);
+                break;
+            }
+
+            col++;
+            if (col > 1) {
+                row++;
+                col = 0;
+            }
+        }
+        this.g.endDraw();
+
 
     }
 

@@ -77,6 +77,10 @@ public abstract class Tower {
 
     public abstract void update(Game game, float t, float dt);
 
+    public void move(IntVec2 pos){
+        this.pos = pos;
+    }
+
     public String getName() {
         return "base";
     }
