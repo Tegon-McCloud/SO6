@@ -2,15 +2,14 @@ package so6;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import so6.base.Enemy;
 import so6.base.PlayerData;
 import so6.base.Projectile;
 import so6.base.Tower;
+import so6.base.level.Cell;
 import so6.base.level.Level;
-import so6.towers.*;
 import so6.ui.Menu;
 import so6.ui.Overlay;
 import so6.ui.State;
@@ -18,6 +17,8 @@ import so6.ui.UpgradeMenu;
 import so6.util.IntVec2;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Vector;
 
@@ -43,6 +44,8 @@ public class Game {
 
     boolean enemySpawned = false;
 
+    private Tower grabbed;
+
     public Game() throws IOException {
         level = new Level("custom0");
         towers = new Vector<>();
@@ -54,15 +57,15 @@ public class Game {
 
         enemies.add(new Enemy("flower monster"));
 
-        towers.add(new Archer(new IntVec2(2, 2)));
+        /*towers.add(new Archer(new IntVec2(2, 2)));
         towers.add(new Mage(new IntVec2(5, 5)));
         towers.add(new Cannon(new IntVec2(3, 0)));
         towers.add(new Flamethrower(new IntVec2(2, 3)));
         towers.add(new Mortar(new IntVec2(5, 3)));
 
-        towers.add(new SniperTroop(new IntVec2(1, 0)));
+        towers.add(new SniperTroop(new IntVec2(1, 0)));*/
 
-
+        grabbed = null;
 
         tstart = System.nanoTime();
         tlast = tstart;
@@ -120,6 +123,13 @@ public class Game {
 
         overlay.draw(g);
 
+        if(grabbed != null){
+            int mx = Window.getWnd().mouseX;
+            int my = Window.getWnd().mouseY;
+
+            grabbed.move(new IntVec2(mx / Cell.pxWidth, my / Cell.pxHeight));
+            grabbed.draw(g);
+        }
 
     }
 
@@ -157,7 +167,42 @@ public class Game {
             menu.setState(State.IN_MENU);
         }else if(e.getKey() == 'f'){
             um.toggleUM();
+        }
 
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if(grabbed != null){
+            if(level.isPath(grabbed.getCellPosition())){
+                return;
+            }
+            for(Tower tower : towers){
+                if(grabbed.getCellPosition().equals(tower.getCellPosition())){
+                    return;
+                }
+            }
+
+            towers.add(grabbed);
+            grabbed = null;
+        } else {
+            overlay.mousePressed(this, e);
+        }
+
+    }
+
+    public void grab(Class towerClass) {
+        try {
+            Constructor<?> ctor = towerClass.getConstructor(IntVec2.class);
+            grabbed = (Tower)ctor.newInstance(new IntVec2(0, 0));
+        } catch (NoSuchMethodException e) {
+            System.err.println("All towers must have a constructor that takes an IntVec2");
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
 
 

@@ -13,13 +13,7 @@ import java.io.IOException;
 
 public class Archer extends Tower {
 
-    static {
-        try {
-            Shop.getElementList().add(new ShopElement(100, new Archer(null)));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
+
 
     private float angle;
     private float tLastShot;

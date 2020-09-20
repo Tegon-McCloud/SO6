@@ -3,6 +3,7 @@ package so6.ui;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.event.MouseEvent;
 import so6.Game;
 import so6.base.PlayerData;
 
@@ -50,4 +51,9 @@ public class Overlay {
         show = !show;
     }
 
+    public void mousePressed(Game game, MouseEvent e) {
+        if(show) {
+            shop.mousePressed(game, e);
+        }
+    }
 }

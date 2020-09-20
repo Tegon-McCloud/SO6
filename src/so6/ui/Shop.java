@@ -3,7 +3,13 @@ package so6.ui;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.event.MouseEvent;
+import so6.Game;
 import so6.Window;
+import so6.towers.Archer;
+import so6.towers.Cannon;
+import so6.towers.Flamethrower;
+import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -13,15 +19,26 @@ import java.util.List;
 import java.util.Vector;
 
 public class Shop {
+
     private static final List<ShopElement> elements = new Vector<>();
 
-    public static List<ShopElement> getElementList() {
-        return elements;
+    static {
+        try {
+            elements.add(new ShopElement(100, new Archer(null)));
+            elements.add(new ShopElement(200, new Cannon(null)));
+            elements.add(new ShopElement(200, new Flamethrower(null)));
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
+
 
     private PImage img;
     private PGraphics g;
     boolean dirty;
+
+    private IntVec2 shopPos;
 
     public Shop() throws IOException {
         Collections.sort(elements, (t1, t2) -> t1.name.compareTo(t2.name));
@@ -41,6 +58,7 @@ public class Shop {
             this.g.beginDraw();
             for (ShopElement e : elements) {
 
+
                 e.draw(this.g, col, row);
 
                 col++;
@@ -50,9 +68,38 @@ public class Shop {
                 }
             }
             this.g.endDraw();
+
+            dirty = false;
         }
 
-        g.image(this.g, g.width - img.width + 8 * 4, 8*4,  this.g.width, this.g.height);
+
+
+        shopPos = new IntVec2(g.width - img.width + 8 * 4, 8*4);
+
+        g.image(this.g, shopPos.x, shopPos.y,  this.g.width, this.g.height);
+
+    }
+
+    public void mousePressed(Game game, MouseEvent e) {
+        IntVec2 mouse = new IntVec2(e.getX() - shopPos.x, e.getY() - shopPos.y);
+
+        int col = 0, row = 0;
+
+        for (ShopElement element : elements) {
+
+            if(element.isInside(mouse, col, row, g.width)) {
+                if(game.getPlayerData().trySpend(element.price)){
+                    game.grab(element.cls);
+                }
+                break;
+            }
+
+            col++;
+            if (col > 1) {
+                row++;
+                col = 0;
+            }
+        }
 
     }
 

@@ -128,6 +128,9 @@ public class Window extends PApplet {
             case IN_MENU:
                 menu.mousePressed(this, e);
                 break;
+            case IN_GAME:
+                game.mousePressed(e);
+                break;
             case IN_EDITOR:
                 editor.mousePressed(e);
                 break;

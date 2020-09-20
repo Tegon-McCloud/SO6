@@ -77,6 +77,10 @@ public abstract class Tower {
 
     public abstract void update(Game game, float t, float dt);
 
+    public void move(IntVec2 pos){
+        this.pos = pos;
+    }
+
     public String getName() {
         return "base";
     }
@@ -91,6 +95,10 @@ public abstract class Tower {
 
     public PVector getPosition() {
         return new PVector((pos.x + 0.5f) * Cell.pxWidth, (pos.y + 0.5f) * Cell.pxHeight);
+    }
+
+    public IntVec2 getCellPosition() {
+        return pos.copy();
     }
 
 }
