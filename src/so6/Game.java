@@ -46,8 +46,8 @@ public class Game {
 
     private Tower grabbed;
 
-    public Game() throws IOException {
-        level = new Level("custom0");
+    public Game(String levelName) throws IOException {
+        level = new Level(levelName);
         towers = new Vector<>();
         enemies = new Vector<>();
         projectiles = new Vector<>();
@@ -191,7 +191,7 @@ public class Game {
     public void grab(Class towerClass) {
         try {
             Constructor<?> ctor = towerClass.getConstructor(IntVec2.class);
-            grabbed = (Tower)ctor.newInstance(new IntVec2(0, 0));
+            grabbed = (Tower)ctor.newInstance(new Object[] {null});
         } catch (NoSuchMethodException e) {
             System.err.println("All towers must have a constructor that takes an IntVec2");
             e.printStackTrace();

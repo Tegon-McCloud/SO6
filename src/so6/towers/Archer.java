@@ -5,15 +5,11 @@ import so6.Game;
 import so6.base.Enemy;
 import so6.base.Projectile;
 import so6.base.Tower;
-import so6.ui.Shop;
-import so6.ui.ShopElement;
 import so6.util.IntVec2;
 
 import java.io.IOException;
 
 public class Archer extends Tower {
-
-
 
     private float angle;
     private float tLastShot;

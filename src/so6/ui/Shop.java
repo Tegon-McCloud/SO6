@@ -6,9 +6,7 @@ import processing.core.PImage;
 import processing.event.MouseEvent;
 import so6.Game;
 import so6.Window;
-import so6.towers.Archer;
-import so6.towers.Cannon;
-import so6.towers.Flamethrower;
+import so6.towers.*;
 import so6.util.IntVec2;
 
 import javax.imageio.ImageIO;
@@ -25,8 +23,12 @@ public class Shop {
     static {
         try {
             elements.add(new ShopElement(100, new Archer(null)));
-            elements.add(new ShopElement(200, new Cannon(null)));
-            elements.add(new ShopElement(200, new Flamethrower(null)));
+            elements.add(new ShopElement(100, new Cannon(null)));
+            elements.add(new ShopElement(100, new Flamethrower(null)));
+            elements.add(new ShopElement(100, new Mage(null)));
+            elements.add(new ShopElement(100, new Mortar(null)));
+            elements.add(new ShopElement(100, new SniperTroop(null)));
+
 
         } catch (IOException exception) {
             exception.printStackTrace();

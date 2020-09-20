@@ -18,6 +18,7 @@ public class Menu {
     private PImage mainImg;
 
     private Button playButton;
+    private Button playCustomButton;
     private Button editorButton;
     private Button controlsButton;
     private Button exitButton;
@@ -30,9 +31,10 @@ public class Menu {
         mainImg = new PImage(ImageIO.read(new File("./resources/menu/main.png")));
 
         playButton = new Button("Play", new PVector(mainImg.width / 2, 256), new IntVec2(128, 16));
-        editorButton = new Button("Edit", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
-        controlsButton = new Button("Controls", new PVector(mainImg.width / 2, 256 + 2*96), new IntVec2(128, 16));
-        exitButton = new Button("Exit", new PVector(mainImg.width / 2, 256 + 3*96), new IntVec2(128, 16));
+        playCustomButton = new Button("Play custom", new PVector(mainImg.width / 2, 256 + 96), new IntVec2(128, 16));
+        editorButton = new Button("Edit", new PVector(mainImg.width / 2, 256 + 2*96), new IntVec2(128, 16));
+        controlsButton = new Button("Controls", new PVector(mainImg.width / 2, 256 + 3*96), new IntVec2(128, 16));
+        exitButton = new Button("Exit", new PVector(mainImg.width / 2, 256 + 4*96), new IntVec2(128, 16));
 
         try {
             font = new PFont(Font.createFont(Font.TRUETYPE_FONT, new File("./resources/menu/font/MinecraftRegular-Bmg3.otf")), false);
@@ -49,6 +51,7 @@ public class Menu {
         g.imageMode(PConstants.CORNER);
         g.image(mainImg, 0, 0);
         playButton.draw(g);
+        playCustomButton.draw(g);
         editorButton.draw(g);
         controlsButton.draw(g);
         exitButton.draw(g);
@@ -69,7 +72,16 @@ public class Menu {
         if(e.getButton() == PConstants.LEFT){
             if(playButton.isInside(mousePos)){
                 try {
-                    wnd.createGame();
+                    wnd.createGame("base");
+                    state = State.IN_GAME;
+                } catch(IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+
+            if(playCustomButton.isInside(mousePos)){
+                try {
+                    wnd.createGame("custom");
                     state = State.IN_GAME;
                 } catch(IOException exception) {
                     exception.printStackTrace();

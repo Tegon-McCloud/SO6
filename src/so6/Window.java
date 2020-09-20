@@ -76,8 +76,8 @@ public class Window extends PApplet {
         image(g, 0, 0);
     }
 
-    public void createGame() throws IOException {
-        game = new Game();
+    public void createGame(String levelName) throws IOException {
+        game = new Game(levelName);
     }
 
     public void createEditor() throws IOException {
