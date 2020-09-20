@@ -23,11 +23,11 @@ public class Shop {
     static {
         try {
             elements.add(new ShopElement(100, new Archer(null)));
-            elements.add(new ShopElement(100, new Cannon(null)));
-            elements.add(new ShopElement(100, new Flamethrower(null)));
-            elements.add(new ShopElement(100, new Mage(null)));
-            elements.add(new ShopElement(100, new Mortar(null)));
-            elements.add(new ShopElement(100, new SniperTroop(null)));
+            elements.add(new ShopElement(50, new Cannon(null)));
+            elements.add(new ShopElement(200, new Flamethrower(null)));
+            elements.add(new ShopElement(500, new Mage(null)));
+            elements.add(new ShopElement(250, new Mortar(null)));
+            elements.add(new ShopElement(400, new SniperTroop(null)));
 
 
         } catch (IOException exception) {
